@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mannerist // Vision 2026</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & Babel for Single File Execution -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Import Maps for React Ecosystem -->
+    <script type="importmap">
+    {
+      "imports": {
+        "react": "https://esm.sh/react@18.2.0",
+        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+        "lucide-react": "https://esm.sh/lucide-react@0.263.1"
+      }
+    }
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Helvetica:wght@400;700;900&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@500;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- GLOBAL & LANDING STYLES --- */
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: "Helvetica", sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* NEON NOIR INPUTS */
+        .access-input {
+            background: #000;
+            border: 2px solid #00f2ff;
+            color: #00f2ff;
+            padding: 14px 24px;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-align: center;
+            outline: none;
+            width: 300px;
+            margin-top: 24px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+            border-radius: 4px;
+        }
+        .access-input:focus {
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.6);
+            background: #000;
+            border-color: #fff;
+            color: #fff;
+        }
+        .access-input::placeholder {
+            color: rgba(0, 242, 255, 0.4);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            font-weight: 500;
+        }
+
+        .access-success {
+            margin-top: 24px;
+            color: #00f2ff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px rgba(0, 242, 255, 0.8);
+            animation: blinkFast 0.2s infinite;
+        }
+        @keyframes blinkFast {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* WAITLIST FORM */
+        .waitlist-group {
+            width: 100%;
+            max-width: 480px;
+            margin: 0 auto;
+            position: relative;
+        }
+        .waitlist-input-container {
+            display: flex;
+            border: 2px solid #00f2ff;
+            background: rgba(0,0,0,0.6);
+            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        .waitlist-input-container:hover, .waitlist-input-container:focus-within {
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.5);
+            background: rgba(0,0,0,0.8);
+        }
+        .waitlist-field {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 16px 20px;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            outline: none;
+        }
+        .waitlist-field::placeholder {
+            color: rgba(255,255,255,0.4);
+        }
+        .waitlist-btn {
+            background: #00f2ff;
+            color: #000;
+            border: none;
+            padding: 0 30px;
+            font-weight: 900;
+            font-family: 'Inter', sans-serif;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        .waitlist-btn:hover {
+            background: #fff;
+            color: #000;
+            box-shadow: 0 0 15px rgba(255,255,255,0.8);
+        }
+        .waitlist-btn:disabled {
+            background: #00f2ff;
+            color: #000;
+            opacity: 0.8;
+            cursor: default;
+        }
+        .waitlist-success-msg {
+            margin-top: 16px;
+            color: #00f2ff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+            animation: fadeInUp 0.5s ease-out;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* LANDING LAYOUT */
+        .hero-container {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
+        .overlay {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            padding: 20px;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.4);
+            overflow-y: auto;
+        }
+        .hero-stack {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: auto;
+            margin-bottom: auto;
+            padding-top: 40px;
+            padding-bottom: 40px;
+        }
+        .header-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 50px;
+            width: 100%;
+            flex-wrap: wrap;
+        }
+        .logo-side {
+            width: 800px;
+            max-width: 60vw;
+            height: auto;
+        }
+        .main-title-side {
+            text-align: left;
+            font-size: 3.2rem;
+            font-weight: 900;
+            font-style: italic;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+        .glow-text-blue { text-shadow: 0 0 15px rgba(0, 242, 255, 0.7); }
+        .glow-text-purple { text-shadow: 0 0 15px rgba(157, 0, 255, 0.7); margin-bottom: 40px; }
+        .glow-text-pink { text-shadow: 0 0 15px rgba(255, 0, 234, 0.7); }
+        .sub-headline { font-size: 1.2rem; letter-spacing: 6px; text-transform: uppercase; text-align: center; }
+        .manifesto-quote { margin-bottom: 40px; max-width: 700px; }
+        .quote-text { font-size: 0.95rem; line-height: 1.6; letter-spacing: 1px; text-transform: uppercase; }
+        .warning-box {
+            border: 1px solid #ffcc00;
+            color: #ffcc00;
+            padding: 10px 25px;
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            margin-bottom: 30px;
+            animation: blink 2s infinite;
+            font-weight: bold;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        
+        .footer-links { font-size: 0.7rem; margin-bottom: 20px; opacity: 0.8; letter-spacing: 2px; text-align: center; }
+        .copyright { font-size: 0.6rem; opacity: 0.5; letter-spacing: 1px; text-shadow: 0 1px 2px rgba(0,0,0,0.8); }
+        .privacy-link { color: #00f2ff; text-decoration: underline; font-weight: bold; text-shadow: 0 0 8px rgba(0, 242, 255, 0.5); }
+        .disclaimer { font-size: 0.65rem; margin-top: 20px; opacity: 0.8; }
+        
+        @media (max-width: 768px) {
+            .main-title-side { font-size: 2rem; text-align: center; }
+            .header-row { gap: 20px; }
+        }
+
+        /* --- VISION DECK STYLES --- */
+        .v26-slide { scroll-snap-align: start; scroll-snap-stop: always; }
+        .v26-shard { position: absolute; top: -100px; border-radius: 4px; animation: fall linear infinite; }
+        @keyframes fall { to { transform: translateY(120vh); opacity: 0; } }
+        @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+        .animate-slide-in { animation: slideInRight 1s ease-out forwards; }
+        .glow-neon { text-shadow: 0 0 10px rgba(0,242,255,0.7), 0 0 20px rgba(0,242,255,0.5); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-type="module">
+        import React, { useState, useEffect, useRef } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { Disc, CassetteTape, Music, Server, Coffee, Mic2, Shirt, ArrowRight, Activity, Globe, Users, Sun, Moon, Layers, Box, CreditCard, ShieldCheck, Percent, Newspaper, Megaphone } from 'lucide-react';
+
+        // --- VIDEO BACKGROUND COMPONENT ---
+        const VIDEO_URL = "https://www.dropbox.com/scl/fi/g2qkjmcl11rfbzln3tpgf/Dougal-Pro-Video.mp4?rlkey=31ok6qa74tnkq186w16maprt9&st=1jmzuoe3&dl=1";
+
+        const VideoBackground = () => {
+            const videoRef = useRef(null);
+            const TRIM_SECONDS = 5;
+
+            useEffect(() => {
+                const video = videoRef.current;
+                if (!video) return;
+
+                const handleTimeUpdate = () => {
+                    if (Number.isFinite(video.duration) && video.duration > 0) {
+                        if (video.currentTime >= video.duration - TRIM_SECONDS) {
+                            video.currentTime = 0;
+                            video.play().catch(() => {});
+                        }
+                    }
+                };
+
+                video.addEventListener('timeupdate', handleTimeUpdate);
+                return () => video.removeEventListener('timeupdate', handleTimeUpdate);
+            }, []);
+
+            return (
+                <video
+                    id="bg-video"
+                    ref={videoRef}
+                    autoPlay
+                    muted
+                    playsInline
+                    className="absolute top-0 left-0 w-full h-full object-cover z-[1] brightness-[0.96]"
+                >
+                    <source src={VIDEO_URL} type="video/mp4" />
+                </video>
+            );
+        };
+
+        // --- ACCESS VISION 2026 COMPONENT (THE DECK) ---
+        function AccessVision2026({ isOpen, onClose }) {
+            const containerRef = useRef(null);
+            const chartRevenueRef = useRef(null);
+            const chartSplitDonutRef = useRef(null);
+            const shardsRef = useRef(null);
+            const counterRef = useRef(null);
+
+            // --- CANVAS HELPERS ---
+            const setupCanvas = (canvas) => {
+                const ctx = canvas.getContext("2d");
+                if (!ctx) return null;
+                const dpr = window.devicePixelRatio || 1;
+                const cssW = canvas.clientWidth;
+                const cssH = canvas.clientHeight;
+                canvas.width = Math.floor(cssW * dpr);
+                canvas.height = Math.floor(cssH * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                return { ctx, w: cssW, h: cssH };
+            };
+
+            const drawGrid = (ctx, w, h, pad) => {
+                ctx.save();
+                ctx.globalAlpha = 0.1;
+                ctx.beginPath();
+                for (let y = pad; y <= h - pad; y += 40) {
+                    ctx.moveTo(pad, y);
+                    ctx.lineTo(w - pad, y);
+                }
+                ctx.strokeStyle = "#fff";
+                ctx.stroke();
+                ctx.restore();
+            };
+
+            const formatNumber = (n) => {
+                if (n >= 1000) return (n / 1000).toFixed(1) + 'k';
+                const isInt = Math.abs(n - Math.round(n)) < 0.00001;
+                const v = isInt ? Math.round(n) : Math.round(n * 10) / 10;
+                return v.toLocaleString("en-GB");
+            };
+
+            // --- CHART RENDERERS ---
+            const drawBars = (canvas, labels, values, opt = {}) => {
+                const setup = setupCanvas(canvas);
+                if (!setup) return;
+                const { ctx, w, h } = setup;
+                const pad = 40;
+                const max = Math.max(...values) * 1.1; 
+                const slot = (w - pad * 2) / values.length;
+                const barW = slot * 0.55;
+                const start = performance.now();
+                const dur = 1300;
+
+                function frame(now) {
+                    const t = Math.min(1, (now - start) / dur);
+                    const eased = 1 - Math.pow(1 - t, 3);
+
+                    ctx.clearRect(0, 0, w, h);
+                    drawGrid(ctx, w, h, pad);
+
+                    values.forEach((v, i) => {
+                        const x = pad + i * slot + (slot - barW) / 2;
+                        const barH = ((h - pad * 2) * (v / max)) * eased;
+                        const y = h - pad - barH;
+                        
+                        ctx.save();
+                        const color = Array.isArray(opt.color) ? opt.color[i] : (opt.color || "#00f2ff");
+                        ctx.fillStyle = color;
+                        ctx.shadowBlur = 15;
+                        ctx.shadowColor = color;
+                        ctx.fillRect(x, y, barW, barH);
+                        ctx.restore();
+                        
+                        ctx.save();
+                        ctx.fillStyle = "#fff";
+                        ctx.font = "bold 13px 'JetBrains Mono', monospace";
+                        ctx.textAlign = "center";
+                        const valTxt = opt.prefix ? `${opt.prefix}${v}${opt.suffix || ''}` : `${v}${opt.suffix || ''}`;
+                        ctx.fillText(valTxt, x + barW/2, y - 10);
+                        ctx.restore();
+
+                        ctx.save();
+                        ctx.fillStyle = "rgba(255,255,255,0.7)";
+                        ctx.font = "11px 'JetBrains Mono', monospace";
+                        ctx.textAlign = "center";
+                        const lines = labels[i].split(' ');
+                        lines.forEach((line, idx) => {
+                            ctx.fillText(line, x + barW/2, h - 25 + (idx * 14));
+                        });
+                        ctx.restore();
+                    });
+                    
+                    if (t < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            };
+
+            const drawDonut = (canvas, parts, opt = {}) => {
+                const setup = setupCanvas(canvas);
+                if (!setup) return;
+                const { ctx, w, h } = setup;
+                const cx = w / 2;
+                const cy = h / 2;
+                const r = Math.min(w, h) * 0.35;
+                const thick = 25;
+                
+                const start = performance.now();
+                const dur = 1500;
+                
+                const total = parts.reduce((acc, p) => acc + p.value, 0);
+
+                function frame(now) {
+                    const t = Math.min(1, (now - start) / dur);
+                    const eased = 1 - Math.pow(1 - t, 3);
+                    
+                    ctx.clearRect(0, 0, w, h);
+                    
+                    let startAngle = -Math.PI / 2;
+                    
+                    parts.forEach((part) => {
+                        const sliceAngle = (part.value / total) * 2 * Math.PI * eased;
+                        const endAngle = startAngle + sliceAngle;
+
+                        ctx.save();
+                        ctx.beginPath();
+                        ctx.arc(cx, cy, r, startAngle, endAngle);
+                        ctx.strokeStyle = part.color;
+                        ctx.lineWidth = thick;
+                        ctx.lineCap = "butt";
+                        ctx.shadowBlur = 20;
+                        ctx.shadowColor = part.color;
+                        ctx.stroke();
+                        ctx.restore();
+
+                        startAngle = endAngle + 0.1; 
+                    });
+                    
+                    ctx.save();
+                    ctx.fillStyle = "#fff";
+                    ctx.font = "bold 32px 'JetBrains Mono', monospace";
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "middle";
+                    ctx.shadowBlur = 10;
+                    ctx.shadowColor = "rgba(255,255,255,0.5)";
+                    ctx.fillText(opt.centerText || "", cx, cy);
+                    
+                    ctx.font = "12px 'JetBrains Mono', monospace";
+                    ctx.fillStyle = "rgba(255,255,255,0.6)";
+                    ctx.fillText(opt.subText || "", cx, cy + 25);
+                    ctx.restore();
+                    
+                    if (t < 1) requestAnimationFrame(frame);
+                }
+                requestAnimationFrame(frame);
+            };
+
+            // --- OBSERVER & DATA ---
+            useEffect(() => {
+                if (!isOpen || !containerRef.current) return;
+
+                const revenueData = {
+                    values: [2.04, 0.368, 0.195], 
+                    labels: ["STREAMING", "PHYSICAL", "RIGHTS"] 
+                };
+
+                const container = containerRef.current;
+                const slides = container.querySelectorAll('.v26-slide');
+                
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            slides.forEach(s => s.classList.remove('active'));
+                            entry.target.classList.add('active');
+                            
+                            const id = entry.target.id.split('-')[1];
+                            if (counterRef.current) counterRef.current.innerText = `0${id} // 08`;
+
+                            if (id === '3' && chartRevenueRef.current) {
+                                drawBars(chartRevenueRef.current, revenueData.labels, revenueData.values, { 
+                                    prefix: "£", suffix: "bn", color: ["#333", "#00f2ff", "#bc13fe"] 
+                                });
+                            }
+                            if (id === '8' && chartSplitDonutRef.current) {
+                                drawDonut(chartSplitDonutRef.current, [
+                                    { value: 70, color: "#00f2ff" }, 
+                                    { value: 30, color: "#bc13fe" } 
+                                ], { centerText: "70%", subText: "ARTIST" });
+                            }
+                        }
+                    });
+                }, { threshold: 0.5, root: container });
+
+                slides.forEach(s => observer.observe(s));
+
+                const spawnShard = () => {
+                    if (!shardsRef.current) return;
+                    const s = document.createElement("div");
+                    s.className = "v26-shard";
+                    s.style.left = Math.random() * 100 + "%";
+                    s.style.width = (4 + Math.random() * 8) + "px";
+                    s.style.height = (20 + Math.random() * 60) + "px";
+                    s.style.animationDuration = (2 + Math.random() * 3) + "s";
+                    s.style.background = Math.random() > 0.5 ? "rgba(0,242,255,0.4)" : "rgba(188,19,254,0.4)";
+                    shardsRef.current.appendChild(s);
+                    setTimeout(() => s.remove(), 5000);
+                };
+                const shardInt = setInterval(spawnShard, 200);
+
+                return () => {
+                    observer.disconnect();
+                    clearInterval(shardInt);
+                };
+            }, [isOpen]);
+
+            useEffect(() => {
+                const handle = (e) => { if(e.key === 'Escape') onClose(); };
+                window.addEventListener('keydown', handle);
+                return () => window.removeEventListener('keydown', handle);
+            }, [onClose]);
+
+            if (!isOpen) return null;
+
+            return (
+                <div className="fixed inset-0 z-[9999999] bg-black/95 backdrop-blur-xl text-white overflow-hidden font-sans">
+                
+                {/* BACK TO HOME BUTTON */}
+                <button 
+                    onClick={onClose} 
+                    className="fixed top-8 right-8 z-50 border border-[#00f2ff] text-[#00f2ff] px-6 py-3 font-mono text-sm tracking-[0.2em] hover:bg-[#00f2ff] hover:text-black transition-all shadow-[0_0_15px_rgba(0,242,255,0.3)] bg-black/50 backdrop-blur-md cursor-pointer pointer-events-auto"
+                >
+                    BACK TO HOME
+                </button>
+
+                {/* Slide Counter */}
+                <div ref={counterRef} className="fixed bottom-8 right-8 z-50 font-mono text-white/40 text-2xl font-black tracking-widest pointer-events-none">
+                    01 // 08
+                </div>
+
+                <div className="fixed inset-0 pointer-events-none opacity-20 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] mix-blend-overlay"></div>
+
+                {/* Scroll Container */}
+                <div ref={containerRef} className="h-full overflow-y-auto snap-y snap-mandatory no-scrollbar">
+
+                    {/* SLIDE 1: HERO */}
+                    <section id="slide-1" className="v26-slide h-screen w-full flex flex-col items-center justify-center relative overflow-hidden p-8">
+                        <div className="absolute inset-0 bg-gradient-to-br from-black via-black to-[#00f2ff]/10"></div>
+                        <div className="relative z-10 text-center animate-slide-in max-w-5xl mx-auto flex flex-col items-center">
+                            <img 
+                                src="https://www.dropbox.com/scl/fi/1t4b0qjpacf03w8fpm0wn/Mannerist-logo-white.png?rlkey=wcra9zosy6bi8rexy7lalbzhe&st=4qjfhg0z&dl=1" 
+                                alt="Mannerist"
+                                className="h-16 md:h-24 mx-auto mb-8 drop-shadow-[0_0_25px_rgba(0,242,255,0.6)]"
+                            />
+                            <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-4 text-transparent bg-clip-text bg-gradient-to-b from-white to-white/50 drop-shadow-[0_0_30px_rgba(0,242,255,0.4)]">
+                                VISION 2026
+                            </h1>
+                            <div className="flex flex-wrap justify-center gap-4 mt-2 mb-8">
+                                {['MUSIC', 'COMMUNITY', 'RAVE CULTURE'].map(tag => (
+                                    <span key={tag} className="border border-white/20 px-4 py-2 rounded-full text-xs tracking-[0.2em] bg-black/50 backdrop-blur-md hover:border-[#00f2ff] hover:text-[#00f2ff] transition-colors cursor-default">
+                                        {tag}
+                                    </span>
+                                ))}
+                            </div>
+                            <p className="text-lg md:text-2xl text-white/80 leading-relaxed font-light max-w-4xl mb-12 border-y border-white/10 py-8 px-4">
+                                "This is for the pioneers who built the scene and the new generation carrying the torch. We are witnessing a historic moment where genres are joining forces to create a unified sound. Mannerist is here to empower that movement—it’s a promise to keep the lights on, the speakers loud, and the spirit of the rave alive forever."
+                            </p>
+                            <p className="text-[10px] md:text-xs font-mono tracking-[0.4em] text-[#00f2ff] uppercase opacity-80 animate-pulse">
+                                United by the Sound. Driven by the Cause.
+                            </p>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 2 */}
+                    <section id="slide-2" className="v26-slide h-screen w-full flex items-center justify-center p-8 relative bg-black">
+                        <div className="absolute inset-0 pointer-events-none" ref={shardsRef}></div>
+                        <div className="max-w-7xl w-full flex flex-col items-center">
+                            <div className="text-center mb-12">
+                                <span className="text-[#ff0055] font-mono text-sm tracking-[0.2em] uppercase">The Licensing Gap</span>
+                                <h2 className="text-4xl md:text-6xl font-black uppercase text-white">Day vs Night</h2>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+                                <div className="relative border border-white/10 p-8 rounded-lg bg-[#ffffff05] flex flex-col items-center text-center overflow-hidden">
+                                    <Sun size={48} className="text-yellow-500 mb-6 drop-shadow-[0_0_15px_rgba(234,179,8,0.5)]" />
+                                    <h3 className="text-2xl font-black text-white mb-2">DAY RAVES</h3>
+                                    <span className="text-xs bg-white/10 px-2 py-1 rounded mb-6 tracking-widest text-white/60">COMMERCIAL / SAFE</span>
+                                    <p className="text-sm text-white/50 leading-relaxed max-w-sm">
+                                        Venues are pivoting to high-turnover day events to secure lucrative licensing. It is low risk, high profit, but leaves no room for the experimental.
+                                    </p>
+                                </div>
+                                <div className="relative border border-[#ff0055]/50 p-8 rounded-lg bg-[#ff0055]/05 flex flex-col items-center text-center overflow-hidden">
+                                    <Moon size={48} className="text-[#ff0055] mb-6 drop-shadow-[0_0_15px_rgba(255,0,85,0.5)]" />
+                                    <h3 className="text-2xl font-black text-white mb-2">NIGHT CULTURE</h3>
+                                    <span className="text-xs bg-[#ff0055]/20 px-2 py-1 rounded mb-6 tracking-widest text-[#ff0055]">UNDERGROUND / AT-RISK</span>
+                                    <p className="text-sm text-white/70 leading-relaxed max-w-sm">
+                                        Grassroots Music Venues (GMVs) operate on a <strong className="text-[#ff0055]">0.5% profit margin</strong>. 
+                                        They can no longer afford to risk their license on new talent.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className="mt-12 bg-black border border-[#00f2ff] p-6 max-w-3xl text-center shadow-[0_0_30px_rgba(0,242,255,0.1)]">
+                                <p className="text-[#00f2ff] font-bold tracking-wider text-sm md:text-base">
+                                    MANNERIST ANGLE: "We provide the digital home for the new talent that night-time venues can no longer afford to risk."
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 3 */}
+                    <section id="slide-3" className="v26-slide h-screen w-full flex items-center justify-center p-8 bg-gradient-to-b from-black to-[#00f2ff]/5">
+                        <div className="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                            <div className="order-2 md:order-1 bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-sm shadow-[0_0_50px_rgba(0,242,255,0.1)]">
+                                <canvas ref={chartRevenueRef} className="w-full h-[350px]"></canvas>
+                            </div>
+                            <div className="order-1 md:order-2 space-y-8 text-right">
+                                <span className="text-[#00f2ff] font-mono text-sm tracking-[0.2em]">BPI MARKET REPORT 2025</span>
+                                <h2 className="text-5xl md:text-7xl font-black leading-none">£2.45BN<br/><span className="text-white/30">PEAK REVENUE</span></h2>
+                                <div className="space-y-4 text-sm font-mono tracking-wide text-white/60 ml-auto max-w-sm border-r-2 border-[#00f2ff] pr-4">
+                                    <p>STREAMING: <span className="text-white">£2.04bn</span> (Volume)</p>
+                                    <p>PHYSICAL: <span className="text-[#00f2ff]">£368m</span> (Profit Margin)</p>
+                                    <p>PERFORMANCE: <span className="text-[#bc13fe]">£195m</span> (Rights)</p>
+                                </div>
+                                <p className="text-lg text-white font-bold leading-relaxed ml-auto max-w-md pt-4">
+                                    "Streaming pays the bills, but <span className="text-[#00f2ff]">Physical provides the profit margin.</span>"
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 4 */}
+                    <section id="slide-4" className="v26-slide h-screen w-full flex items-center justify-center p-8 bg-black relative overflow-hidden">
+                        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
+                        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+                            <div className="relative h-[500px] border border-white/10 rounded-2xl overflow-hidden bg-white/5 backdrop-blur-sm">
+                                <div className="absolute inset-0 flex">
+                                    <div className="w-1/2 h-full bg-gradient-to-br from-black to-[#bc13fe]/10 border-r border-white/10 flex flex-col items-center justify-center p-8 relative">
+                                        <div className="absolute top-4 left-4 text-xs font-mono text-[#bc13fe]">ERA: 2000-2010</div>
+                                        <CassetteTape size={80} className="text-white mb-4 drop-shadow-[0_0_15px_rgba(188,19,254,0.5)]" />
+                                        <p className="text-center text-white/50 text-sm">THE TAPE PACK<br/>(Social Currency)</p>
+                                    </div>
+                                    <div className="w-1/2 h-full bg-gradient-to-bl from-black to-[#00f2ff]/10 flex flex-col items-center justify-center p-8 relative">
+                                        <div className="absolute top-4 right-4 text-xs font-mono text-[#00f2ff]">ERA: 2026</div>
+                                        <Server size={80} className="text-white mb-4 drop-shadow-[0_0_15px_rgba(0,242,255,0.5)]" />
+                                        <p className="text-center text-white/50 text-sm">THE CLOUD<br/>(Instant Access)</p>
+                                    </div>
+                                </div>
+                                <div className="absolute bottom-0 inset-x-0 bg-black/80 backdrop-blur-md p-6 border-t border-white/10">
+                                    <div className="flex items-center gap-4">
+                                        <Activity className="text-[#00f2ff]" size={24} />
+                                        <div>
+                                            <p className="text-white font-bold text-sm uppercase">Luminate Data Insight</p>
+                                            <p className="text-white/60 text-xs">"1 in 4 vinyl/CD buyers don't own a player. They buy the connection."</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="space-y-8">
+                                <div>
+                                    <span className="text-[#bc13fe] font-mono text-sm tracking-[0.2em] mb-2 block">THE PHYSICAL RENAISSANCE</span>
+                                    <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
+                                        HONOURING THE ARTIFACT: <br/>
+                                        FROM TAPE PACKS TO THE <span className="text-[#00f2ff]">DIGITAL FRONTIER</span>
+                                    </h2>
+                                </div>
+                                <div className="space-y-6">
+                                    <div className="border-l-2 border-[#bc13fe] pl-6">
+                                        <h3 className="text-white font-bold text-lg mb-1">THE HISTORICAL SHIFT</h3>
+                                        <p className="text-white/60 text-sm leading-relaxed">
+                                            In the early 2000s, the Tape Pack was the social currency of the rave—physical proof you were there. By 2010-2026, the industry shifted toward high-speed Downloads, Streaming, and USB-driven DJ sets (Pioneer/Rekordbox culture).
+                                        </p>
+                                    </div>
+                                    <div className="border-l-2 border-white/20 pl-6">
+                                        <h3 className="text-white font-bold text-lg mb-1">THE PROBLEM</h3>
+                                        <p className="text-white/60 text-sm leading-relaxed">
+                                            While USBs and Streaming offer convenience, they lack the "Tactile Soul" of the original scene. Tape packs and CD sets have transitioned from "Media" to "Legacy Artifacts."
+                                        </p>
+                                    </div>
+                                    <div className="border-l-2 border-[#00f2ff] pl-6 bg-[#00f2ff]/5 py-4 pr-4 rounded-r-lg">
+                                        <h3 className="text-[#00f2ff] font-bold text-lg mb-1">THE MANNERIST MISSION</h3>
+                                        <p className="text-white/80 text-sm leading-relaxed">
+                                            We recognize that Streaming is King for the ears, but the Artifact is King for the heart. Mannerist is partnering with bespoke manufacturers to bring back limited-run Tape and CD packs for the collectors who refuse to let the physical legacy die.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="pt-4 border-t border-white/10">
+                                    <p className="text-[10px] text-white/30 font-mono tracking-widest">
+                                        SOURCES: ERA UK MARKET REPORT (2025), LUMINATE MUSIC DATA (2025), BPI DIGITAL VS PHYSICAL ANALYSIS.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 5 */}
+                    <section id="slide-5" className="v26-slide h-screen w-full flex items-center justify-center p-8 bg-[#050505] relative overflow-hidden">
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none"></div>
+                        <div className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+                            <div className="space-y-12">
+                                <div>
+                                    <span className="text-[#00f2ff] font-mono text-sm tracking-[0.2em] uppercase mb-2 block">Absolute Financial Transparency</span>
+                                    <h2 className="text-4xl md:text-5xl font-black text-white leading-tight">THE SOVEREIGN<br/><span className="text-[#00f2ff]">ROYALTY MODEL</span></h2>
+                                    <p className="text-white/60 mt-4 text-lg">70/30: The New Industry Standard for Independent Success.</p>
+                                </div>
+                                <div className="space-y-6">
+                                    <div className="flex gap-6 group">
+                                        <div className="flex-shrink-0 w-12 h-12 border border-white/20 bg-white/5 rounded-lg flex items-center justify-center text-[#635bff]">
+                                            <CreditCard size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-bold text-lg mb-1 flex items-center gap-3">
+                                                STEP 1: THE SECURE GATEWAY
+                                                <span className="text-[10px] bg-[#635bff]/20 text-[#635bff] px-2 py-0.5 rounded border border-[#635bff]/30 flex items-center gap-1">
+                                                    <ShieldCheck size={10} /> VERIFIED BY STRIPE
+                                                </span>
+                                            </h3>
+                                            <p className="text-white/60 text-sm leading-relaxed">
+                                                We use Stripe (The world's most trusted processor). They charge a standard fee (1.4% + 20p for UK/EU cards). This is the only "transaction toll."
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6 group">
+                                        <div className="flex-shrink-0 w-12 h-12 border border-white/20 bg-white/5 rounded-lg flex items-center justify-center text-white">
+                                            <Activity size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-bold text-lg mb-1">STEP 2: NET REVENUE</h3>
+                                            <p className="text-white/60 text-sm leading-relaxed">
+                                                Once the gateway fee is processed, every remaining penny is classified as <strong>Net Revenue</strong>. No hidden admin fees. No marketing deductions.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div className="flex gap-6 group">
+                                        <div className="flex-shrink-0 w-12 h-12 border border-[#00f2ff] bg-[#00f2ff]/10 rounded-lg flex items-center justify-center text-[#00f2ff] shadow-[0_0_15px_rgba(0,242,255,0.3)]">
+                                            <Percent size={24} />
+                                        </div>
+                                        <div>
+                                            <h3 className="text-white font-bold text-lg mb-1 text-[#00f2ff]">STEP 3: THE SOVEREIGN SPLIT</h3>
+                                            <p className="text-white/60 text-sm leading-relaxed">
+                                                <span className="text-white">70% to Artist/Label (The Talent).</span><br/>
+                                                <span className="text-[#00f2ff]">30% to Mannerist (The Ecosystem).</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-md relative overflow-hidden shadow-[0_0_50px_rgba(0,242,255,0.05)]">
+                                <div className="mb-12 relative">
+                                    <div className="flex justify-between text-xs font-mono tracking-widest mb-4 uppercase text-white/50">
+                                        <span>Artist Share</span>
+                                        <span>Mannerist Share</span>
+                                    </div>
+                                    <div className="h-16 w-full flex rounded-lg overflow-hidden relative border border-white/10">
+                                        <div className="w-[70%] bg-[#00f2ff] relative group hover:brightness-110 transition-all cursor-crosshair flex items-center justify-center">
+                                            <span className="font-black text-black text-3xl tracking-tighter">70%</span>
+                                            <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                                        </div>
+                                        <div className="w-[30%] bg-[#111] border-l border-white/10 flex items-center justify-center relative">
+                                            <div className="absolute inset-0 opacity-20 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:4px_4px]"></div>
+                                            <span className="font-black text-white/40 text-3xl tracking-tighter">30%</span>
+                                        </div>
+                                    </div>
+                                    <div className="flex justify-between mt-4 border-t border-white/5 pt-4">
+                                        <p className="text-[#00f2ff] text-[10px] md:text-xs font-bold tracking-wider flex items-center gap-2">
+                                            <ShieldCheck size={12} /> ZERO HIDDEN DEDUCTIONS
+                                        </p>
+                                        <p className="text-white/40 text-[10px] md:text-xs font-bold tracking-wider">ZERO PAYOUT DELAYS</p>
+                                    </div>
+                                </div>
+                                <div className="space-y-6 pt-2">
+                                    <h4 className="text-white font-bold tracking-widest uppercase text-sm border-b border-white/10 pb-2 inline-block">THE HONESTY CLAUSE</h4>
+                                    <p className="text-white/80 text-sm leading-relaxed italic border-l-2 border-[#00f2ff] pl-4">
+                                        "Unlike major distributors who hide 'administrative fees' or 'marketing deductions,' our split is based on the Total Net Sale. What you see is what you get."
+                                    </p>
+                                </div>
+                                <div className="mt-8 bg-black/40 rounded p-6 border border-white/5">
+                                    <p className="text-[10px] text-[#00f2ff] uppercase tracking-widest mb-2 font-bold">Mannerist Investment Pledge</p>
+                                    <p className="text-white/60 text-xs leading-relaxed">
+                                        Our 30% is pledged to the development of the Mannerist Hub, the live recording studio, and our global free promotion initiatives—feeding back into the scene that feeds us.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 6 */}
+                    <section id="slide-6" className="v26-slide h-screen w-full flex items-center justify-center p-8 bg-gradient-to-r from-black to-[#bc13fe]/5">
+                        <div className="max-w-6xl w-full flex flex-col items-center text-center space-y-12">
+                            <div>
+                                <span className="text-[#bc13fe] font-mono text-sm tracking-[0.2em] relative z-10 block mb-2">COMMUNITY FIRST</span>
+                                <h2 className="text-5xl md:text-8xl font-black tracking-tighter text-white relative z-10">
+                                    THE CIRCULAR<br/>ECONOMY
+                                </h2>
+                                <p className="text-lg md:text-2xl text-white/90 font-light leading-relaxed max-w-3xl mx-auto mt-8 border-y border-white/10 py-6">
+                                    "A scene is defined by the energy on the floor, not the balance in a bank account. Mannerist operates on a 'Reinvest-to-Revive' model. We don't just extract value; we circulate it. By keeping the culture accessible, we ensure the next generation of ravers can afford to be part of the story."
+                                </p>
+                            </div>
+                            <div className="w-full bg-white/5 border border-white/10 rounded-xl p-8 backdrop-blur-md relative overflow-hidden">
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#bc13fe] via-[#00f2ff] to-[#bc13fe]"></div>
+                                <h3 className="text-[#00f2ff] font-bold tracking-widest uppercase mb-6 text-sm flex items-center justify-center gap-2">
+                                    <Activity size={14} /> THE ARCHITECTS OF THE SOUND
+                                </h3>
+                                <p className="text-white/70 text-sm leading-loose max-w-4xl mx-auto font-mono">
+                                    "We build upon the legacy of the icons who paved the way. We honor the heritage, the sweat, and the spirit of: <strong className="text-white">HSU-HTID</strong>, <strong className="text-white">BTID</strong>, <strong className="text-white">Ravers Reunited</strong>, <strong className="text-white">Epidemic</strong>, <strong className="text-white">Tidy Weekenders</strong>, <strong className="text-white">Hospitality (Hospital Records)</strong>, <strong className="text-white">RAM Records</strong>, <strong className="text-white">DnB Allstars</strong>, <strong className="text-white">Worried About Henry</strong>, <strong className="text-white">Shogun Audio</strong>, <strong className="text-white">Metalheadz</strong>, <strong className="text-white">Rave Anywhere</strong>, <strong className="text-white">Adrenaline Stompers</strong>, <strong className="text-white">Rave Life</strong>, and every promoter who ever risked it all for the rave."
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 7 */}
+                    <section id="slide-7" className="v26-slide h-screen w-full flex items-center justify-center p-8 relative overflow-hidden bg-black">
+                        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(0,242,255,0.03)_1px,transparent_1px),linear-gradient(rgba(0,242,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] opacity-50"></div>
+                        <div className="relative z-10 max-w-7xl w-full">
+                            <div className="text-center mb-16">
+                                <span className="text-[#00f2ff] font-mono text-sm tracking-[0.2em] mb-4 block uppercase">The Hybrid Model</span>
+                                <h2 className="text-5xl md:text-7xl font-black text-white leading-none mb-2">THE MANNERIST HUB</h2>
+                                <p className="text-xl md:text-2xl text-white/50 font-light tracking-widest uppercase">Online Reach <span className="text-[#bc13fe] px-2">//</span> Physical Roots</p>
+                            </div>
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                                <div className="space-y-8">
+                                    <div className="relative h-64 w-full bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex">
+                                        <div className="w-1/2 h-full bg-black/80 relative overflow-hidden border-r border-white/10">
+                                            <div className="absolute inset-0 p-4 font-mono text-[10px] text-[#00f2ff]/40 leading-relaxed break-all opacity-50">
+                                                {`01010111 01000101 01001100 01000011 01001111 01001101 01000101 00100000 01010100 01001111 00100000 01010100 01001000 01000101 00100000 01001101 01000001 01001110 01001110 01000101 01010010 01001001 01010011 01010100 00100000 01001000 01010101 01000010 00001010 01000111 01001100 01001111 01000010 01000001 01001100 00100000 01000011 01001111 01001110 01001110 01000101 01000011 01010100 00001010 01010101 01010011 01010100 01001111 01010010 01000101 00100000 01001111 01001110 01001100 01001001 01001110 01000101`}
+                                            </div>
+                                            <div className="absolute bottom-4 left-4">
+                                                <Globe className="text-[#00f2ff]" size={32} />
+                                                <p className="text-[#00f2ff] text-xs font-bold mt-2 tracking-widest">24/7 ONLINE</p>
+                                            </div>
+                                        </div>
+                                        <div className="w-1/2 h-full bg-[#111] relative">
+                                            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-leather.png')] opacity-50"></div>
+                                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+                                                <CassetteTape className="text-[#bc13fe] animate-pulse" size={64} />
+                                            </div>
+                                            <div className="absolute bottom-4 right-4 text-right">
+                                                <Box className="text-[#bc13fe] ml-auto" size={32} />
+                                                <p className="text-[#bc13fe] text-xs font-bold mt-2 tracking-widest">PHYSICAL ARTIFACTS</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p className="text-white/70 text-lg leading-relaxed border-l-2 border-[#00f2ff] pl-6">
+                                        "More than a transaction—a conversation. We bridge the gap between the UK's legendary night-culture and the emerging global underground."
+                                    </p>
+                                </div>
+                                <div className="grid grid-cols-1 gap-6">
+                                    <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 transition-colors group">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-black rounded-lg border border-white/10 text-[#bc13fe] group-hover:text-white transition-colors">
+                                                <Disc size={24} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg mb-2">HONOURING THE ARTIFACTS</h3>
+                                                <p className="text-white/60 text-sm leading-relaxed">
+                                                    Vinyl is king, but we are aggressively reviving the <strong>CD and Tape Pack</strong>. 
+                                                    Honouring the legacy of <em>One Nation</em> and <em>Slammin' Vinyl</em> for the next generation of collectors.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 transition-colors group">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-black rounded-lg border border-white/10 text-[#00f2ff] group-hover:text-white transition-colors">
+                                                <Newspaper size={24} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg mb-2">MANNERIST PRESS</h3>
+                                                <p className="text-white/60 text-sm leading-relaxed mb-4">
+                                                    We are digitalizing the frontline. Mannerist Eye (inspired by the legendary Raving Eye) is our dedicated online source for promoting events, gathering raw feedback, and hosting community discourse.
+                                                </p>
+                                                <p className="text-[10px] text-white/40 italic">
+                                                    "We are humble to honor and follow the path of the legends: Raving Eye, The Wire, DJ Mag, Inverted Audio, and Mixmag."
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="bg-white/5 border border-white/10 p-6 rounded-xl hover:bg-white/10 transition-colors group">
+                                        <div className="flex items-start gap-4">
+                                            <div className="p-3 bg-black rounded-lg border border-white/10 text-white group-hover:text-[#00f2ff] transition-colors">
+                                                <Megaphone size={24} />
+                                            </div>
+                                            <div>
+                                                <h3 className="text-white font-bold text-lg mb-2">OPEN-ACCESS ADVOCACY</h3>
+                                                <p className="text-white/60 text-sm leading-relaxed">
+                                                    To support the lifeblood of our industry, Mannerist provides a Zero-Cost Promotional Infrastructure. We offer a free, high-reach platform for event promoters and festival organizers to showcase their vision. No listing fees. No hidden charges. This is our commitment to the floor—completely free until further notice, because the music deserves to be heard.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* SLIDE 8 */}
+                    <section id="slide-8" className="v26-slide h-screen w-full flex flex-col items-center justify-center p-8 text-center bg-black relative z-10">
+                        <div className="max-w-5xl w-full space-y-12 flex flex-col items-center">
+                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter uppercase mb-2 leading-tight">
+                                HONOUR THE PAST.<br/>
+                                <span className="text-[#00f2ff]">PROTECT THE FUTURE.</span>
+                            </h2>
+                            <div className="flex items-center gap-4 text-[#00f2ff] font-mono text-xs md:text-sm tracking-[0.3em] font-bold uppercase glow-neon">
+                                <span>MUSIC</span>
+                                <span className="text-white/30">|</span>
+                                <span>COMMUNITY</span>
+                                <span className="text-white/30">|</span>
+                                <span>RAVE CULTURE</span>
+                            </div>
+                            <div className="w-24 h-[1px] bg-white/20 my-8"></div>
+                            <p className="text-xl md:text-2xl text-white/80 font-light leading-relaxed max-w-3xl">
+                                "Mannerist: Keeping the scene alive. Keeping the rave alive. Keeping the music alive."
+                            </p>
+                            <a href="mailto:will@mannerist.co.uk" className="text-3xl md:text-5xl font-black text-[#00f2ff] hover:text-white transition-colors tracking-tighter glow-neon mt-8 block">
+                                will@mannerist.co.uk
+                            </a>
+                            <button
+                                onClick={() => {
+                                    window.location.href = "mailto:will@mannerist.co.uk?subject=Mannerist Vision 2026 Inquiry";
+                                }}
+                                className="mt-12 px-12 py-5 bg-[#00f2ff] text-black text-lg font-black tracking-[0.2em] hover:bg-white hover:scale-105 transition-all duration-300 shadow-[0_0_30px_rgba(0,242,255,0.4)] uppercase"
+                            >
+                                INQUIRE NOW
+                            </button>
+                        </div>
+                    </section>
+
+                </div>
+                </div>
+            );
+        }
+
+        // --- MAIN APP COMPONENT ---
+        function App() {
+            const [unlocked, setUnlocked] = useState(false);
+            const [accessCode, setAccessCode] = useState('');
+            const [isGranted, setIsGranted] = useState(false); 
+            
+            const [email, setEmail] = useState('');
+            const [sending, setSending] = useState(false);
+            const [waitlistSuccess, setWaitlistSuccess] = useState(false);
+            const [btnText, setBtnText] = useState('SEND');
+
+            // Check hash
+            useEffect(() => {
+                if (typeof window !== 'undefined' && window.location.hash === '#vision') {
+                    setUnlocked(true);
+                }
+            }, []);
+
+            // --- ACCESS CODE LOGIC (250624) ---
+            const handleAccessCodeChange = (e) => {
+                const val = e.target.value;
+                setAccessCode(val);
+                
+                if (val === '250624') {
+                    setIsGranted(true);
+                    setTimeout(() => {
+                        setUnlocked(true);
+                        window.location.hash = 'vision';
+                    }, 1500); 
+                }
+            };
+
+            // --- WAITLIST LOGIC (FORMSPREE: meeljgpr) ---
+            const handleJoinWaitlist = async (e) => {
+                e.preventDefault();
+                if (!email) return;
+                setSending(true);
+                setBtnText('SENDING...');
+
+                try {
+                    const FORMSPREE_ENDPOINT = "https://formspree.io/f/meeljgpr";
+
+                    await fetch(FORMSPREE_ENDPOINT, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                    
+                    setSending(false);
+                    setBtnText('JOINED');
+                    setEmail('');
+                    setWaitlistSuccess(true);
+                    
+                } catch (error) {
+                    console.error("Submission error", error);
+                    setSending(false);
+                    setBtnText('RETRY');
+                }
+            };
+
+            if (unlocked) {
+                return (
+                    <AccessVision2026 
+                        isOpen={true} 
+                        onClose={() => {
+                            setUnlocked(false);
+                            setIsGranted(false);
+                            setAccessCode('');
+                            window.location.hash = '';
+                        }} 
+                    />
+                );
+            }
+
+            return (
+                <div className="hero-container">
+                    <VideoBackground />
+
+                    <div className="overlay">
+                        <div className="hero-stack">
+                            <div className="warning-box">
+                                <span className="warning-icon">⚠</span> SITE UNDER CONSTRUCTION <span className="warning-icon">⚠</span>
+                            </div>
+
+                            <div className="header-row">
+                                <img src="https://www.dropbox.com/scl/fi/1t4b0qjpacf03w8fpm0wn/Mannerist-logo-white.png?rlkey=wcra9zosy6bi8rexy7lalbzhe&st=4qjfhg0z&dl=1" alt="Mannerist Logo" className="logo-side" />
+                                <h1 className="main-title-side glow-text-blue">
+                                    UNIFYING<br/>THE<br/>COLLECTIVE<br/>RAVE SCENE
+                                </h1>
+                            </div>
+
+                            <p className="sub-headline glow-text-purple">THE NEW ERA OF UNDERGROUND INFRASTRUCTURE</p>
+
+                            <div className="manifesto-quote">
+                                <p className="quote-text glow-text-pink">
+                                    "The rave isn’t dying—it’s finding a new rhythm. <br/>
+                                    We bridge legacy legends with the next generation of pioneers. <br/>
+                                    <strong>Honouring the past, engineering the future.</strong>"
+                                </p>
+                            </div>
+
+                            <form id="waitlist-form" onSubmit={handleJoinWaitlist} className="waitlist-group">
+                                <label htmlFor="email" className="text-xs font-bold tracking-[0.2em] mb-3 block text-center text-white/80">JOIN THE WAITING LIST</label>
+                                
+                                <div className="waitlist-input-container">
+                                    <input 
+                                        type="email" 
+                                        id="email" 
+                                        name="email"
+                                        className="waitlist-field"
+                                        placeholder="ENTER YOUR EMAIL..." 
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
+                                        required 
+                                        disabled={waitlistSuccess}
+                                    />
+                                    <button type="submit" className="waitlist-btn" disabled={sending || waitlistSuccess}>
+                                        {btnText}
+                                    </button>
+                                </div>
+
+                                {waitlistSuccess && (
+                                    <p className="waitlist-success-msg">
+                                        YOU'RE ON THE LIST. WE'LL BE IN TOUCH.
+                                    </p>
+                                )}
+
+                                <p className="disclaimer text-center">
+                                    IMPORTANT: PLEASE READ OUR
+                                    <a href="https://www.dropbox.com/scl/fi/ygp4jtwld6dxk18jjep15/Mannerist-WLPP.pdf?rlkey=bh5onjfghl6rm7mil21zf6116&st=yfffw4i7&raw=1" target="_blank" rel="noopener noreferrer" className="privacy-link ml-1">PRIVACY NOTICE</a>
+                                    BEFORE ENTERING YOUR EMAIL.
+                                </p>
+                            </form>
+
+                            <div className="industry-portal-group" style={{ marginTop: '60px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                <p className="footer-links" style={{ marginBottom: '5px' }}>[ INDUSTRY PORTAL // ARTISTS // LABELS // PARTNERS // DISTRIBUTORS ]</p>
+                                
+                                {isGranted ? (
+                                    <div className="access-success">ACCESS GRANTED // INITIALIZING...</div>
+                                ) : (
+                                    <input 
+                                        type="password"
+                                        className="access-input"
+                                        placeholder="ENTER ACCESS CODE..."
+                                        value={accessCode}
+                                        onChange={handleAccessCodeChange}
+                                        autoComplete="off"
+                                    />
+                                )}
+                            </div>
+                        </div>
+
+                        <footer style={{ width: '100%', padding: '20px 0', textAlign: 'center', zIndex: 20, background: 'transparent', textShadow: 'none' }}>
+                            <p className="copyright" style={{ textShadow: '0 1px 2px rgba(0,0,0,0.8)' }}>
+                                © 2026 MANNERIST. ALL RIGHTS RESERVED. // VISUALS BY JUSTIN FOK // ARTIST: DOUGAL
+                            </p>
+                        </footer>
+                    </div>
+                </div>
+            );
+        }
+
+        const root = createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
